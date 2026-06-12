@@ -1,0 +1,129 @@
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════════════ TOP NAVBAR ══ -->
+  <nav class="top-navbar">
+    <span class="brand-name">Context</span>
+
+    <div class="navbar-links">
+      <button class="navbar-link" (click)="router.navigate(['/dashboard'])">Inicio</button>
+      <button class="navbar-link" (click)="router.navigate(['/ordenar'])">Ordenar</button>
+      <button class="navbar-link" (click)="router.navigate(['/registro'])">Registro</button>
+      <button class="navbar-link navbar-link--active">Análisis</button>
+    </div>
+
+    <button class="navbar-logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar sesión
+    </button>
+  </nav>
+
+  <div class="app-body">
+    <main class="analisis-content">
+
+      <h1 class="analisis-title">Análisis del negocio</h1>
+
+      <!-- ══════════════════════════════════════════════ KPI CARDS ══ -->
+      <div class="kpi-row">
+
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap kpi-icon-wrap--sales">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <div>
+            <p class="kpi-label">Ventas este mes</p>
+            <p class="kpi-value">{{ totalThisMonth }}</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap kpi-icon-wrap--star">
+            <mat-icon>emoji_events</mat-icon>
+          </div>
+          <div>
+            <p class="kpi-label">Producto estrella</p>
+            <p class="kpi-value kpi-value--sm">{{ topProductName }}</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-wrap kpi-icon-wrap--ticket">
+            <mat-icon>receipt_long</mat-icon>
+          </div>
+          <div>
+            <p class="kpi-label">Ticket promedio</p>
+            <p class="kpi-value">{{ avgTicket }}</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════════════════════════════════════════════ CHARTS ══ -->
+      <div class="charts-row">
+
+        <!-- Ventas mensuales — vertical bar chart -->
+        <div class="chart-card">
+          <h2 class="chart-title">
+            <mat-icon>bar_chart</mat-icon>
+            Ventas mensuales
+          </h2>
+          <div class="bar-chart">
+            @for (sale of monthlySales; track sale.month) {
+              <div class="bar-col">
+                <span class="bar-amount">${{ (sale.amount / 1000).toFixed(0) }}k</span>
+                <div class="bar" [style.height.%]="salesBarHeight(sale.amount)"></div>
+                <span class="bar-label">{{ sale.month }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Productos más vendidos — horizontal bar chart -->
+        <div class="chart-card">
+          <h2 class="chart-title">
+            <mat-icon>leaderboard</mat-icon>
+            Productos más vendidos
+          </h2>
+          <div class="h-bar-chart">
+            @for (product of topProducts; track product.name) {
+              <div class="h-bar-row">
+                <span class="h-bar-label">{{ product.name }}</span>
+                <div class="h-bar-track">
+                  <div class="h-bar" [style.width.%]="productBarWidth(product.units)"></div>
+                </div>
+                <span class="h-bar-units">{{ product.units }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════════════════════════════════════ AI SUGGESTIONS ══ -->
+      <section class="suggestions-section">
+
+        <h2 class="suggestions-heading">
+          <mat-icon>tips_and_updates</mat-icon>
+          Sugerencias del manager IA
+        </h2>
+
+        <div class="suggestions-grid">
+          @for (s of suggestions; track s.title) {
+            <article class="suggestion-card">
+              <div class="suggestion-card__header">
+                <span class="suggestion-chip suggestion-chip--{{ s.category }}">
+                  <mat-icon>{{ categoryIcon(s.category) }}</mat-icon>
+                  {{ categoryLabel(s.category) }}
+                </span>
+              </div>
+              <h3 class="suggestion-card__title">{{ s.title }}</h3>
+              <p class="suggestion-card__body">{{ s.body }}</p>
+            </article>
+          }
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+</div>

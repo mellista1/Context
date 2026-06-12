@@ -1,0 +1,87 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Left branding panel -->
+    <div class="brand-panel">
+      <div class="brand-logo-wrap">
+        <span class="brand-name">Context</span>
+      </div>
+
+      <div class="brand-copy">
+        <h1 class="brand-headline">Bienvenido<br />de vuelta</h1>
+        <p class="brand-desc">
+          Gestión operativa para negocios gastronómicos de alto rendimiento.
+        </p>
+      </div>
+
+      <div class="brand-deco"></div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="form-panel">
+      <div class="form-header">
+        <h2 class="form-title">Ingresar</h2>
+        <p class="form-subtitle">Ingresá tus credenciales para continuar.</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+        <mat-form-field appearance="outline" class="ctx-field">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+          />
+          @if (emailErrorMessage(); as errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="ctx-field">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="hidePassword() ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+          @if (passwordErrorMessage(); as errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-options">
+          <a class="forgot-link">Olvidé mi contraseña</a>
+        </div>
+
+        @if (loginError()) {
+          <p class="error-message">{{ loginError() }}</p>
+        }
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="form.invalid || isLoading()"
+        >
+          {{ isLoading() ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+
+      <p class="register-link">
+        ¿No tenés cuenta?
+        <a routerLink="/sign-up">Crear cuenta y negocio</a>
+      </p>
+    </div>
+
+  </div>
+</div>

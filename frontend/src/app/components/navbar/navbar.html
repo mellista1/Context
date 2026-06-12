@@ -1,0 +1,64 @@
+<header class="navbar">
+  <div class="navbar__content">
+    <a routerLink="/" class="navbar__brand" aria-label="Context home">
+      <span class="navbar__name">Context</span>
+    </a>
+
+    <nav class="navbar__actions">
+      @if (loggedIn$ | async) {
+        <div class="navbar__user">
+          <span class="navbar__avatar">
+            {{ ((fullName$ | async) || 'U').charAt(0).toUpperCase() }}
+          </span>
+
+          <span class="navbar__user-name">
+            {{ fullName$ | async }}
+          </span>
+        </div>
+
+        <a
+          mat-button
+          routerLink="/dashboard"
+          routerLinkActive="navbar__link--active"
+          class="navbar__link"
+        >
+          Dashboard
+        </a>
+
+        <button
+          mat-stroked-button
+          type="button"
+          class="navbar__danger"
+          [disabled]="isDeletingAccount"
+          (click)="openDeleteAccountDialog()"
+        >
+          Borrar cuenta
+        </button>
+
+        <button
+          mat-stroked-button
+          type="button"
+          class="navbar__logout"
+          (click)="logout()"
+        >
+          Cerrar sesión
+        </button>
+      } @else {
+        <a
+          routerLink="/login"
+          routerLinkActive="navbar__link--active"
+          class="navbar__link"
+        >
+          Login
+        </a>
+
+        <a
+          routerLink="/sign-up"
+          class="navbar__cta"
+        >
+          Sign up
+        </a>
+      }
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,186 @@
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 24px;
+  background:
+    radial-gradient(circle at top left, rgba(251, 146, 60, 0.22), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.18), transparent 30%),
+    linear-gradient(135deg, #fff7ed 0%, #f8fafc 45%, #ecfdf5 100%);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 920px;
+  border-radius: 24px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+}
+
+.register-header {
+  padding: 12px 12px 24px;
+}
+
+mat-card-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.03em;
+}
+
+mat-card-subtitle {
+  margin-top: 6px;
+  font-size: 0.98rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.form-section h2 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.form-section h2::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: #f97316;
+  vertical-align: middle;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: #f9fafb;
+  border-radius: 14px;
+}
+
+::ng-deep .mat-mdc-form-field-focus-overlay {
+  background: transparent;
+}
+
+::ng-deep .mdc-text-field--focused .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--focused .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #f97316 !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #ea580c !important;
+}
+
+::ng-deep .mat-mdc-form-field-error {
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.error-message {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-weight: 600;
+  white-space: pre-line;
+}
+
+.submit-button {
+  height: 52px;
+  border-radius: 999px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  box-shadow: 0 12px 28px rgba(249, 115, 22, 0.28);
+}
+
+.submit-button:not(:disabled) {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: white;
+}
+
+.submit-button:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  box-shadow: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+@media (max-width: 720px) {
+  .register-page {
+    padding: 24px 12px;
+  }
+
+  .register-card {
+    border-radius: 20px;
+    padding: 8px;
+  }
+
+  .form-section {
+    padding: 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  mat-card-title {
+    font-size: 1.45rem;
+  }
+}
+
+.login-link {
+  margin: -12px 0 0;
+  text-align: center;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.login-link a {
+  color: #ea580c;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

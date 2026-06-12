@@ -1,0 +1,103 @@
+@if (isVisible()) {
+  <div class="bubble-wrapper">
+
+    <!-- Collapsed trigger -->
+    @if (!isExpanded()) {
+      <button
+        class="bubble-trigger"
+        [class.bubble-trigger--active]="hasContent()"
+        (click)="toggleExpanded()"
+        aria-label="Abrir asistente"
+      >
+        <mat-icon>smart_toy</mat-icon>
+        @if (hasContent()) {
+          <span class="bubble-badge">{{ suggestions().length }}</span>
+        }
+      </button>
+    }
+
+    <!-- Expanded panel -->
+    @if (isExpanded()) {
+      <div class="bubble-panel" role="dialog" aria-label="Asistente Context">
+
+        <!-- Header -->
+        <div class="bubble-panel__header">
+          <div class="bubble-panel__brand">
+            <span class="bubble-panel__brand-icon">
+              <mat-icon>smart_toy</mat-icon>
+            </span>
+            <div>
+              <p class="bubble-panel__title">Asistente Context</p>
+              <p class="bubble-panel__subtitle">Tendencias y sugerencias</p>
+            </div>
+          </div>
+          <button
+            mat-icon-button
+            class="bubble-panel__close"
+            (click)="toggleExpanded()"
+            aria-label="Cerrar panel"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="bubble-panel__body">
+
+          @if (isLoading()) {
+            <div class="bubble-panel__loading">
+              <mat-progress-spinner mode="indeterminate" diameter="28" />
+              <span>Cargando sugerencias...</span>
+            </div>
+          } @else if (suggestions().length === 0) {
+            <div class="bubble-panel__empty">
+              <mat-icon>check_circle</mat-icon>
+              <p>No hay sugerencias por el momento.</p>
+            </div>
+          } @else {
+            <section class="bubble-section">
+              <h3 class="bubble-section__heading">
+                <mat-icon>trending_up</mat-icon>
+                Tendencias y oportunidades
+              </h3>
+
+              @for (item of suggestions(); track item.notification.title) {
+                <article class="bubble-card bubble-card--suggestion">
+                  <p class="bubble-card__title">{{ item.notification.title }}</p>
+                  <p class="bubble-card__summary">{{ item.notification.summary }}</p>
+                  @if (item.aiSuggestion) {
+                    <p class="bubble-card__suggestion">
+                      <mat-icon>tips_and_updates</mat-icon>
+                      {{ item.aiSuggestion }}
+                    </p>
+                  }
+                </article>
+              }
+            </section>
+          }
+
+        </div>
+
+        <!-- Footer -->
+        <div class="bubble-panel__footer">
+          <button
+            mat-stroked-button
+            class="bubble-btn bubble-btn--later"
+            (click)="verMasTarde()"
+          >
+            Ver más tarde
+          </button>
+          <button
+            mat-stroked-button
+            class="bubble-btn bubble-btn--dismiss"
+            (click)="omitir()"
+          >
+            Omitir por hoy
+          </button>
+        </div>
+
+      </div>
+    }
+
+  </div>
+}

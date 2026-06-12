@@ -1,0 +1,22 @@
+INSERT INTO "Products" ("Id", "Name", "Description", "Price")
+VALUES
+    (1, 'Empanadas de carne', 'Empanadas caseras rellenas de carne picada con cebolla y especias', 350.00),
+    (2, 'Medialunas de manteca', 'Medialunas artesanales de manteca, suaves y doradas', 120.00),
+    (3, 'Facturas surtidas', 'Caja de 6 facturas variadas: vigilantes, cañoncitos y palmeritas', 480.00),
+    (4, 'Pan de campo', 'Pan de campo tradicional horneado en leña, 500g', 290.00),
+    (5, 'Tarta de choclo', 'Tarta casera de choclo con queso rallado y huevo', 620.00),
+    (6, 'Pizza de mozzarella', 'Pizza a la piedra con salsa de tomate y abundante mozzarella', 1200.00),
+    (7, 'Milanesa de ternera', 'Milanesa de ternera fina, apanada y lista para cocinar, 250g', 950.00),
+    (8, 'Alfajores de maicena', 'Pack de 3 alfajores de maicena rellenos con dulce de leche', 540.00),
+    (9, 'Dulce de leche artesanal', 'Dulce de leche cremoso elaborado de forma artesanal, frasco 400g', 780.00),
+    (10, 'Queso cremoso', 'Queso cremoso de elaboración propia, horma de 500g', 1100.00),
+    (11, 'Salame picado fino', 'Salame artesanal de picado fino, 300g', 870.00),
+    (12, 'Chimichurri casero', 'Chimichurri tradicional con hierbas frescas, frasco 250ml', 420.00),
+    (13, 'Locro norteño', 'Locro tradicional del norte con maíz, porotos y cerdo, porción 500ml', 1350.00),
+    (14, 'Humitas en chala', 'Humitas caseras envueltas en chala, pack de 4 unidades', 760.00),
+    (15, 'Facturas de grasa', 'Docena de facturas de grasa recién horneadas', 560.00),
+    (16, 'Torta de ricota', 'Torta de ricota con ralladura de limón, porción individual', 390.00),
+    (17, 'Budín de pan', 'Budín de pan casero con pasas de uva, molde chico', 450.00),
+    (18, 'Morcilla criolla', 'Morcilla criolla con cebolla y especias, 300g', 680.00),
+    (19, 'Yerba mate elaborada', 'Yerba mate elaborada con palo, paquete 500g', 320.00),
+    (20, 'Mermelada de membrillo', 'Mermelada de membrillo artesanal sin conservantes, frasco 300g', 510.00);

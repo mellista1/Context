@@ -1,0 +1,73 @@
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════════════ TOP NAVBAR ══ -->
+  <nav class="top-navbar">
+    <span class="brand-name">Context</span>
+
+    <div class="navbar-links">
+      <button class="navbar-link" (click)="router.navigate(['/dashboard'])">Inicio</button>
+      <button class="navbar-link" (click)="router.navigate(['/ordenar'])">Ordenar</button>
+      <button class="navbar-link navbar-link--active">Registro</button>
+      <button class="navbar-link" (click)="router.navigate(['/analisis'])">Análisis</button>
+    </div>
+
+    <button class="navbar-logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar sesión
+    </button>
+  </nav>
+
+  <div class="app-body">
+
+    <!-- ═════════════════════════════════════════ CENTER CONTENT ══ -->
+    <main class="center-content">
+
+      <div class="list-view">
+
+        <div class="view-header">
+          <p class="view-eyebrow">Historial</p>
+          <h1 class="view-title">Órdenes recientes</h1>
+          <p class="view-count">
+            {{ orders().length }} orden{{ orders().length === 1 ? '' : 'es' }} en total
+          </p>
+        </div>
+
+        @if (isLoadingOrders()) {
+          <div class="state-center">
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+        } @else if (orders().length === 0) {
+          <div class="state-empty">
+            <mat-icon>receipt</mat-icon>
+            <p>No hay órdenes registradas</p>
+          </div>
+        } @else {
+          <div class="orders-list">
+            @for (order of orders(); track order.id) {
+              <div class="order-row">
+                <span class="order-row__badge">#{{ order.id }}</span>
+
+                <div class="order-row__info">
+                  <div class="order-row__table">
+                    <mat-icon>table_restaurant</mat-icon>
+                    Mesa {{ order.tableNumber }}
+                  </div>
+                  <div class="order-row__products">
+                    {{ getProductNames(order.products) }}
+                  </div>
+                </div>
+
+                <span class="order-row__total">${{ order.totalPrice | number:'1.2-2' }}</span>
+                <span class="order-row__date">{{ order.createdAt | date:'dd/MM/yy HH:mm' }}</span>
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+
+    </main>
+
+  </div><!-- /.app-body -->
+
+</div>

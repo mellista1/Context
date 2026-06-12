@@ -1,0 +1,29 @@
+<div class="delete-dialog">
+  <div class="delete-dialog__icon">
+    <mat-icon>warning</mat-icon>
+  </div>
+
+  <h2 mat-dialog-title class="delete-dialog__title">
+    Borrar cuenta
+  </h2>
+
+  <mat-dialog-content class="delete-dialog__content">
+    <p>
+      Esta acción va a borrar tu usuario y toda la información asociada a la cuenta.
+    </p>
+
+    <p class="delete-dialog__warning">
+      Esta acción no se puede deshacer.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="delete-dialog__actions">
+    <button mat-button type="button" (click)="cancel()">
+      Cancelar
+    </button>
+
+    <button mat-flat-button type="button" class="delete-dialog__danger" (click)="confirm()">
+      Borrar cuenta
+    </button>
+  </mat-dialog-actions>
+</div>

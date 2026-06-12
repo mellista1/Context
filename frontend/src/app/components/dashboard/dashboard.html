@@ -1,0 +1,286 @@
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════════════ TOP NAVBAR ══ -->
+  <nav class="top-navbar">
+    <span class="brand-name">Context</span>
+
+    <div class="navbar-links">
+      <button class="navbar-link navbar-link--active">Inicio</button>
+      <button class="navbar-link" (click)="navigateToOrdenar()">Ordenar</button>
+      <button class="navbar-link" (click)="navigateToRegistro()">Registro</button>
+      <button class="navbar-link" (click)="navigateToAnalisis()">Análisis</button>
+    </div>
+
+    <button class="navbar-logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar sesión
+    </button>
+  </nav>
+
+  <div class="app-body">
+
+  <!-- ═════════════════════════════════════════ CENTER CONTENT ══ -->
+  <main class="center-content">
+
+    <h1 class="welcome-title">¡Bienvenido, {{ businessName() }}!</h1>
+
+    <div class="dashboard-grid">
+
+      <!-- ── Left: Calendar ────────────────────────────────────── -->
+      <div class="dash-calendar">
+
+        <div class="cal-nav">
+          <button class="cal-nav-btn" (click)="prevMonth()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <span class="cal-nav-label">{{ displayMonthLabel() }}</span>
+          <button class="cal-nav-btn" (click)="nextMonth()">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+
+        <div class="cal-grid cal-grid--header">
+          @for (h of ['L','M','X','J','V','S','D']; track h) {
+            <span class="cal-hdr">{{ h }}</span>
+          }
+        </div>
+
+        <div class="cal-grid">
+          @for (day of calendarDays(); track day.isoDate ?? $index) {
+            <button
+              class="cal-day"
+              [class.cal-day--today]="isToday(day.isoDate)"
+              [class.cal-day--selected]="selectedDate() === day.isoDate"
+              [class.cal-day--has-event]="hasEvent(day.isoDate)"
+              [class.cal-day--empty]="!day.date"
+              [disabled]="!day.date"
+              (click)="day.isoDate && selectDay(day.isoDate)"
+            >
+              @if (day.date) {
+                {{ day.date }}
+                @if (hasEvent(day.isoDate)) {
+                  <span class="cal-dot"></span>
+                }
+              }
+            </button>
+          }
+        </div>
+
+      </div>
+
+      <!-- ── Right: Event details ──────────────────────────────── -->
+      <div class="dash-events">
+
+        <h2 class="dash-events__heading">
+          <mat-icon>event</mat-icon>
+          Eventos de {{ displayMonthLabel() }}
+        </h2>
+
+        @if (allEventDisplays().length === 0) {
+          <div class="state-empty">
+            <mat-icon>event_note</mat-icon>
+            <p>Sin eventos registrados este mes</p>
+          </div>
+        } @else {
+          <div class="event-cards">
+            @for (ev of allEventDisplays(); track ev.isoDate) {
+              <div
+                class="event-card"
+                [class.event-card--selected]="selectedDate() === ev.isoDate"
+                [class.event-card--pending]="ev.isPending"
+                (click)="selectDay(ev.isoDate)"
+              >
+                <div class="event-card__header">
+                  <span class="event-card__chip">{{ eventTypeLabel(ev.eventType) }}</span>
+                  <span class="event-card__date">{{ ev.isoDate | date:'dd MMM' }}</span>
+                </div>
+
+                <h3 class="event-card__title">{{ ev.title }}</h3>
+
+                @if (ev.location) {
+                  <p class="event-card__loc">
+                    <mat-icon>location_on</mat-icon>
+                    {{ ev.location }}
+                  </p>
+                }
+
+                @if (ev.aiSuggestion) {
+                  <p class="event-card__suggestion">
+                    <mat-icon>tips_and_updates</mat-icon>
+                    {{ ev.aiSuggestion }}
+                  </p>
+                }
+
+                @if (ev.outcome) {
+                  <div class="event-card__outcome">
+                    <p class="outcome-item">
+                      <mat-icon>emoji_events</mat-icon>
+                      <span>{{ ev.outcome.topProduct }}
+                        <span class="outcome-qty">({{ ev.outcome.topProductQuantity }} uds.)</span>
+                      </span>
+                    </p>
+                    @if (ev.outcome.salesIncreasePercent !== null) {
+                      <p class="outcome-item outcome-item--positive">
+                        <mat-icon>trending_up</mat-icon>
+                        +{{ ev.outcome.salesIncreasePercent }}% en ventas
+                      </p>
+                    }
+                  </div>
+                }
+
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+
+    </div>
+
+  </main>
+
+  </div><!-- /.app-body -->
+
+</div>
+
+<!-- ══════════════════════════════════════════ MANAGER MODAL ══ -->
+@if (isManagerModalOpen()) {
+  <div class="modal-overlay" (click)="closeManagerModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+
+      <button class="modal-close" (click)="closeManagerModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <h2 class="modal-title">Panel Manager</h2>
+
+      <div class="modal-body">
+
+        <!-- ── LEFT COL: Calendar + Account ──────────────────── -->
+        <div class="modal-col modal-col--calendar">
+
+          <div class="cal-nav">
+            <button class="cal-nav-btn" (click)="prevMonth()">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <span class="cal-nav-label">{{ displayMonthLabel() }}</span>
+            <button class="cal-nav-btn" (click)="nextMonth()">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+
+          <div class="cal-grid cal-grid--header">
+            @for (h of ['L','M','X','J','V','S','D']; track h) {
+              <span class="cal-hdr">{{ h }}</span>
+            }
+          </div>
+
+          <div class="cal-grid">
+            @for (day of calendarDays(); track day.isoDate ?? $index) {
+              <button
+                class="cal-day"
+                [class.cal-day--today]="isToday(day.isoDate)"
+                [class.cal-day--selected]="selectedDate() === day.isoDate"
+                [class.cal-day--has-event]="hasEvent(day.isoDate)"
+                [class.cal-day--empty]="!day.date"
+                [disabled]="!day.date"
+                (click)="day.isoDate && selectDay(day.isoDate)"
+              >
+                @if (day.date) {
+                  {{ day.date }}
+                  @if (hasEvent(day.isoDate)) {
+                    <span class="cal-dot"></span>
+                  }
+                }
+              </button>
+            }
+          </div>
+
+          <!-- Selected day detail -->
+          @if (selectedEventDisplay(); as ev) {
+            <div class="day-detail">
+              <span class="day-detail__chip">{{ eventTypeLabel(ev.eventType) }}</span>
+              <p class="day-detail__title">{{ ev.title }}</p>
+              @if (ev.location) {
+                <p class="day-detail__loc">
+                  <mat-icon>location_on</mat-icon>
+                  {{ ev.location }}
+                </p>
+              }
+              @if (ev.aiSuggestion) {
+                <p class="day-detail__suggestion">
+                  <mat-icon>tips_and_updates</mat-icon>
+                  {{ ev.aiSuggestion }}
+                </p>
+              }
+              @if (ev.outcome) {
+                <div class="day-detail__outcome">
+                  <p class="outcome-item">
+                    <mat-icon>emoji_events</mat-icon>
+                    <span>{{ ev.outcome.topProduct }}
+                      <span class="outcome-qty">({{ ev.outcome.topProductQuantity }} uds.)</span>
+                    </span>
+                  </p>
+                  @if (ev.outcome.salesIncreasePercent !== null) {
+                    <p class="outcome-item outcome-item--positive">
+                      <mat-icon>trending_up</mat-icon>
+                      +{{ ev.outcome.salesIncreasePercent }}% en ventas
+                    </p>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Account actions -->
+          <div class="account-actions">
+            <button class="acct-btn acct-btn--logout" (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              Cerrar sesión
+            </button>
+            <button
+              class="acct-btn acct-btn--danger"
+              [disabled]="isDeletingAccount"
+              (click)="openDeleteAccountDialog()"
+            >
+              <mat-icon>delete_forever</mat-icon>
+              Borrar cuenta
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ── RIGHT COL: Trends & Suggestions ───────────────── -->
+        <div class="modal-col modal-col--trends">
+
+          <h3 class="trends-heading">
+            <mat-icon>trending_up</mat-icon>
+            Tendencias & Sugerencias
+          </h3>
+
+          @if (suggestions().length === 0) {
+            <div class="trends-empty">
+              <mat-icon>check_circle</mat-icon>
+              <p>No hay tendencias disponibles por el momento.</p>
+            </div>
+          } @else {
+            @for (item of suggestions(); track item.notification.title) {
+              <article class="trend-card">
+                <p class="trend-card__title">{{ item.notification.title }}</p>
+                <p class="trend-card__summary">{{ item.notification.summary }}</p>
+                @if (item.aiSuggestion) {
+                  <p class="trend-card__suggestion">
+                    <mat-icon>tips_and_updates</mat-icon>
+                    {{ item.aiSuggestion }}
+                  </p>
+                }
+              </article>
+            }
+          }
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+}

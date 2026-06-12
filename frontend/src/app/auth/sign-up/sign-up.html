@@ -1,0 +1,160 @@
+<div class="register-page">
+  <mat-card class="register-card">
+    <mat-card-header class="register-header">
+      <div>
+        <mat-card-title>Crear cuenta y negocio</mat-card-title>
+        <mat-card-subtitle>
+          Configurá tu usuario owner y el negocio inicial de FoodOps.
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
+        <section class="form-section">
+          <h2>Datos del usuario</h2>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre completo</mat-label>
+              <input matInput formControlName="fullName" autocomplete="name" />
+
+              @if (form.controls.fullName.hasError('required')) {
+              <mat-error>El nombre completo es obligatorio.</mat-error>
+              }
+
+              @if (form.controls.fullName.hasError('maxlength')) {
+              <mat-error>El nombre no puede superar los 150 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" autocomplete="email" />
+
+              @if (form.controls.email.hasError('required')) {
+              <mat-error>El email es obligatorio.</mat-error>
+              }
+
+              @if (
+              form.controls.email.hasError('email') ||
+              form.controls.email.hasError('pattern')
+              ) {
+              <mat-error>Ingresá un email válido.</mat-error>
+              }
+
+              @if (form.controls.email.hasError('maxlength')) {
+              <mat-error>El email no puede superar los 256 caracteres.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Contraseña</mat-label>
+
+              <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password"
+                autocomplete="new-password" />
+
+              <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()"
+                [attr.aria-label]="hidePassword() ? 'Mostrar contraseña' : 'Ocultar contraseña'">
+                <mat-icon>
+                  {{ hidePassword() ? 'visibility' : 'visibility_off' }}
+                </mat-icon>
+              </button>
+
+              @if (form.controls.password.hasError('required')) {
+              <mat-error>La contraseña es obligatoria.</mat-error>
+              }
+
+              @if (form.controls.password.hasError('minlength')) {
+              <mat-error>Debe tener al menos 6 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Repetir contraseña</mat-label>
+
+              <input matInput [type]="hideConfirmPassword() ? 'password' : 'text'" formControlName="confirmPassword"
+                autocomplete="new-password" />
+
+              <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPasswordVisibility()"
+                [attr.aria-label]="hideConfirmPassword() ? 'Mostrar contraseña' : 'Ocultar contraseña'">
+                <mat-icon>
+                  {{ hideConfirmPassword() ? 'visibility' : 'visibility_off' }}
+                </mat-icon>
+              </button>
+
+              @if (form.controls.confirmPassword.hasError('required')) {
+              <mat-error>Repetí la contraseña.</mat-error>
+              }
+
+              @if (form.controls.confirmPassword.hasError('passwordsMismatch')) {
+              <mat-error>Las contraseñas no coinciden.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Datos del negocio</h2>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre del negocio</mat-label>
+              <input matInput formControlName="businessName" />
+
+              @if (form.controls.businessName.hasError('required')) {
+              <mat-error>El nombre del negocio es obligatorio.</mat-error>
+              }
+
+              @if (form.controls.businessName.hasError('maxlength')) {
+              <mat-error>No puede superar los 150 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Dirección</mat-label>
+              <input matInput formControlName="businessAddress" />
+
+              @if (form.controls.businessAddress.hasError('required')) {
+              <mat-error>La dirección es obligatoria.</mat-error>
+              }
+
+              @if (form.controls.businessAddress.hasError('maxlength')) {
+              <mat-error>No puede superar los 250 caracteres.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+
+            <textarea matInput rows="3" formControlName="businessDescription"></textarea>
+
+            <mat-hint align="end">
+              {{ form.controls.businessDescription.value.length }}/1000
+            </mat-hint>
+
+            @if (form.controls.businessDescription.hasError('maxlength')) {
+            <mat-error>La descripción no puede superar los 1000 caracteres.</mat-error>
+            }
+          </mat-form-field>
+        </section>
+
+        @if (errorMessage()) {
+        <p class="error-message">{{ errorMessage() }}</p>
+        }
+
+        <button mat-raised-button type="submit" class="submit-button" [disabled]="form.invalid || isSubmitting()">
+          {{ isSubmitting() ? 'Creando cuenta...' : 'Crear cuenta y negocio' }}
+        </button>
+
+        <p class="login-link">
+          ¿Ya tenés cuenta?
+          <a routerLink="/login">Iniciar sesión</a>
+        </p>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

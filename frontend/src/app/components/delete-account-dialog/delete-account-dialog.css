@@ -1,0 +1,62 @@
+.delete-dialog {
+  width: 100%;
+  max-width: 420px;
+  padding: 8px 4px 4px;
+}
+
+.delete-dialog__icon {
+  width: 48px;
+  height: 48px;
+  margin: 8px auto 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.delete-dialog__icon mat-icon {
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+}
+
+.delete-dialog__title {
+  margin: 0 !important;
+  padding: 12px 24px 4px !important;
+
+  text-align: center;
+  color: #0f172a;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.delete-dialog__content {
+  padding: 8px 24px 12px !important;
+
+  text-align: center;
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.delete-dialog__warning {
+  margin-top: 12px;
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.delete-dialog__actions {
+  padding: 8px 24px 20px !important;
+}
+
+.delete-dialog__danger {
+  color: white !important;
+  background: #dc2626 !important;
+  border-radius: 999px !important;
+  font-weight: 800;
+}

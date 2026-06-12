@@ -1,0 +1,163 @@
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════════════ TOP NAVBAR ══ -->
+  <nav class="top-navbar">
+    <span class="brand-name">Context</span>
+
+    <div class="navbar-links">
+      <button class="navbar-link" (click)="router.navigate(['/dashboard'])">Inicio</button>
+      <button class="navbar-link navbar-link--active">Ordenar</button>
+      <button class="navbar-link" (click)="router.navigate(['/registro'])">Registro</button>
+      <button class="navbar-link" (click)="router.navigate(['/analisis'])">Análisis</button>
+    </div>
+
+    <button class="navbar-logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar sesión
+    </button>
+  </nav>
+
+  <div class="app-body">
+
+    <!-- ═════════════════════════════════════════ CENTER CONTENT ══ -->
+    <main class="center-content">
+
+      <div class="order-view">
+
+        <div class="view-header view-header--centered">
+          <h1 class="view-title">Crea Nueva Orden</h1>
+        </div>
+
+        <!-- Table Selection -->
+        <section class="view-section view-section--centered">
+          <p class="section-label">Número de mesa</p>
+          <div class="table-badges table-badges--centered">
+            @for (t of tables; track t) {
+              <button
+                class="table-badge"
+                [class.table-badge--selected]="tableNumber === t"
+                (click)="selectTable(t)"
+              >
+                {{ t }}
+              </button>
+            }
+          </div>
+          <button class="productos-btn" (click)="openProductList()">
+            <mat-icon>menu_book</mat-icon>
+            Lista de productos
+          </button>
+        </section>
+
+        <!-- Order Confirmation -->
+        <section class="view-section confirm-section">
+          <div class="section-header">
+            <h2 class="section-title">Confirmar orden</h2>
+          </div>
+
+          @if (orderItems().length === 0) {
+            <p class="confirm-empty">Seleccioná al menos un producto y una mesa.</p>
+          } @else {
+            <div class="confirm-items">
+              @for (item of orderItems(); track item.product.id) {
+                <div class="confirm-item">
+                  <span class="confirm-item__name">{{ item.product.name }}</span>
+                  <span class="confirm-item__qty">× {{ item.quantity }}</span>
+                  <span class="confirm-item__total">
+                    ${{ item.product.price * item.quantity | number:'1.2-2' }}
+                  </span>
+                </div>
+              }
+              <div class="confirm-divider"></div>
+              <div class="confirm-total-row">
+                <span>Total</span>
+                <span class="confirm-total-amount">${{ totalPrice() | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          }
+
+          @if (orderError()) {
+            <p class="feedback-error">{{ orderError() }}</p>
+          }
+
+          @if (orderSuccess()) {
+            <p class="feedback-success">
+              <mat-icon>check_circle</mat-icon>
+              Orden creada con éxito
+            </p>
+          }
+
+          <button
+            class="confirm-btn"
+            [disabled]="cannotSubmit"
+            (click)="createOrder()"
+          >
+            {{ isSubmitting() ? 'Creando...' : 'Confirmar Orden' }}
+          </button>
+        </section>
+
+      </div>
+
+    </main>
+
+  </div><!-- /.app-body -->
+
+</div>
+
+<!-- ══════════════════════════════════════ PRODUCT LIST MODAL ══ -->
+@if (isProductListOpen()) {
+  <div class="modal-overlay" (click)="closeProductList()">
+    <div class="modal-content modal-content--products" (click)="$event.stopPropagation()">
+
+      <button class="modal-close" (click)="closeProductList()">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <h2 class="modal-title">Lista de Productos</h2>
+
+      <div class="product-list-body">
+        @if (isLoadingProducts()) {
+          <div class="state-center">
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+        } @else if (products().length === 0) {
+          <div class="state-empty">
+            <mat-icon>inventory_2</mat-icon>
+            <p>No hay productos disponibles</p>
+          </div>
+        } @else {
+          <div class="menu-list">
+            @for (product of products(); track product.id) {
+              <div
+                class="menu-row"
+                [class.menu-row--selected]="getQuantity(product.id) > 0"
+                (click)="addProduct(product)"
+              >
+                <div class="menu-row__info">
+                  <span class="menu-row__name">{{ product.name }}</span>
+                  <span class="menu-row__desc">{{ product.description }}</span>
+                </div>
+
+                <div class="menu-row__right">
+                  <span class="menu-row__price">${{ product.price | number:'1.2-2' }}</span>
+
+                  @if (getQuantity(product.id) > 0) {
+                    <div class="qty-ctrl" (click)="$event.stopPropagation()">
+                      <button class="qty-btn" (click)="removeProduct(product.id)">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                      <span class="qty-val">{{ getQuantity(product.id) }}</span>
+                      <button class="qty-btn" (click)="addProduct(product)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+}
