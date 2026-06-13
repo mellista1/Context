@@ -81,5 +81,10 @@ No se trata solo de analítica. Se trata de **memoria contextual aplicada al neg
 Proyecto desarrollado en el marco de la **Hackatón Y-HAT** por un equipo de desarrolladores apasionados por la IA aplicada y los negocios reales.
 
 ---
-
-> *"El contexto no es ruido. Es la información que más importa."*
+<img src="docs/imagenes/Screenshot from 2026-06-11 22-36-14.png" alt="Dashboard principal" width="700"/>
+<img src="docs/imagenes/Screenshot from 2026-06-11 22-36-23.png" alt="Dashboard principal" width="700"/>
+<img src="docs/imagenes/Screenshot from 2026-06-11 22-38-04.png" alt="Dashboard principal" width="700"/>
+<img src="docs/imagenes/Screenshot from 2026-06-11 22-58-32.png" alt="Dashboard principal" width="700"/>
+<img src="docs/imagenes/Screenshot from 2026-06-11 22-59-17.png" alt="Dashboard principal" width="700"/>
+<img src="docs/imagenes/Screenshot from 2026-06-11 23-25-40.png" alt="Dashboard principal" width="700"/>
+<img src="docs/imagenes/Screenshot from 2026-06-11 23-25-43.png" alt="Dashboard principal" width="700"/>
